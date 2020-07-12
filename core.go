@@ -10,8 +10,8 @@ import (
 	"github.com/espal-digital-development/espal-core/modules/meta"
 	"github.com/espal-digital-development/espal-core/modules/routes"
 	"github.com/espal-digital-development/espal-core/modules/translations"
-	spaPage "github.com/espal-digital-development/espal-module-core/app/pages/spa"
-	"github.com/espal-digital-development/espal-module-core/app/routes/spa"
+	spaPage "github.com/espal-digital-development/espal-module-core/pages/spa"
+	"github.com/espal-digital-development/espal-module-core/routes/spa"
 	"github.com/juju/errors"
 )
 

@@ -1,0 +1,9 @@
+{% func (p *Page) Title() %}{%s p.forum.Name() %}{% endfunc %}
+
+{% func (p *Page) Content() %}{% stripspace %}
+<div class="content">
+    {% comment %} TODO :: Implement {% endcomment %}
+    CREATE
+</div>
+
+{% endstripspace %}{% endfunc %}
