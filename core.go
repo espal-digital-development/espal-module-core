@@ -5,13 +5,13 @@ import (
 	"path/filepath"
 	"runtime"
 
-	spaPage "github.com/espal-digital-development/espal-core/app/modules/core/app/pages/spa"
-	"github.com/espal-digital-development/espal-core/app/modules/core/app/routes/spa"
 	"github.com/espal-digital-development/espal-core/modules"
 	"github.com/espal-digital-development/espal-core/modules/assets"
 	"github.com/espal-digital-development/espal-core/modules/meta"
 	"github.com/espal-digital-development/espal-core/modules/routes"
 	"github.com/espal-digital-development/espal-core/modules/translations"
+	spaPage "github.com/espal-digital-development/espal-module-core/app/pages/spa"
+	"github.com/espal-digital-development/espal-module-core/app/routes/spa"
 	"github.com/juju/errors"
 )
 
