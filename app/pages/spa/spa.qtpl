@@ -1,0 +1,7 @@
+{% func (p *Page) Title() %}{%s "THIS IS SPA" %}{% endfunc %}
+
+{% func (p *Page) Content() %}{% stripspace %}
+<div id="app"></div>
+{% endstripspace %}{% endfunc %}
+
+{% func (p *Page) Javascripts() %}<script src="/j/spa/main.js"></script>{% endfunc %}

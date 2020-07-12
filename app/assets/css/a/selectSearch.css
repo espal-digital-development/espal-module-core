@@ -1,0 +1,38 @@
+.searchResults {
+    display: none;
+    border: 1px solid #1f4c69;
+}
+
+.searchResults div {
+    border-bottom: 1px solid #1f4c69;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.searchResults div:hover {
+    background: #0d476e;
+}
+
+.searchResults div:last-child {
+    border-bottom: none;
+}
+
+.noSearchResults {
+    display: none;
+    border: 1px solid #1f4c69;
+    padding: 5px;
+}
+
+.selectedBadge {
+    display: none;
+    border-radius: 3px;
+    padding: 5px;
+    margin: 5px;
+    background: #3d6497;
+    border: 1px solid #ffffff;
+}
+
+.selectedBadge span {
+    padding-left: 10px;
+    cursor: pointer;
+}

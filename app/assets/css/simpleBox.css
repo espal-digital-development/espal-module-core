@@ -1,0 +1,23 @@
+.simpleBox {
+    margin: 50px auto;
+    width: 320px;
+    padding: 20px;
+    border-radius: 2px;
+    box-shadow: 5px 5px 5px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border: 1px solid #d3d3d3;
+    background: #fafafa;
+    color: #888888;
+}
+
+.simpleBox a {
+    color: #4084e7;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}
+
+input[type=checkbox] + span {
+    cursor: pointer;
+}

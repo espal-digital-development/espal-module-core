@@ -1,0 +1,55 @@
+.sidebar {
+    grid-area: sideBar;
+    background: #14212a;
+}
+
+.sideBarHead {
+    background: #4084e7;
+    color: #dae4f7;
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+}
+
+.menu {
+    padding-left: 0;
+}
+
+.menu p {
+    cursor: pointer;
+    user-select: none;
+    padding: 10px 15px;
+    color: #4b5963;
+    transition: color 1.5s ease;
+}
+
+.menu li {
+    list-style: none;
+}
+
+.menu ul {
+    padding-left: 0;
+    display: none;
+}
+
+.menu a.active {
+    color: #4084e7;
+}
+
+.menu ul li {
+    flex: 1 1 100%;
+    background: #1c2931;
+    padding: 10px 15px;
+    border-left: 2px solid #dae4f7;
+}
+
+.menu a {
+    color: #4b5963;
+    transition: color 1.5s ease;
+}
+
+.menu a:hover, .menu p:hover {
+    color: #dae4f7;
+    transition: color 0.15s ease;
+}

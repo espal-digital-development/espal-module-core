@@ -1,0 +1,48 @@
+.filter, .filterInfo {
+    margin: 20px 0;
+}
+
+.filter select {
+    display: inline-block;
+    width: 50px;
+    margin-right: 8px;
+}
+
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.pagination p {
+    display: inline-block;
+    border: 1px solid var(--clr);
+    border-radius: 5px;
+    width: 30px;
+    padding: 5px 0;
+    margin-right: 8px;
+    color: #01b1d2;
+    cursor: pointer;
+}
+
+.pagination p:hover {
+    background: #0a2638;
+    color: var(--clr);
+}
+
+.pagination p.current {
+    color: #fabefa;
+    border-color: #fabefa;
+    cursor: default;
+    pointer-events:none;
+}
+
+.pagination p.current:hover {
+    background: #362036;
+}
+
+.pagination p.separator {
+    border: 1px solid #bbc3d3;
+    color: var(--clr);
+    cursor: default;
+    pointer-events:none;
+}

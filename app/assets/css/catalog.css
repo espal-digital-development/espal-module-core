@@ -1,0 +1,10 @@
+.catalog {
+    margin: 15px;
+    border: 1px solid #3d4658;
+}
+
+.catalog .filters {
+    float: left;
+    width: 200px;
+    border-right: 1px solid #3d4658;
+}
