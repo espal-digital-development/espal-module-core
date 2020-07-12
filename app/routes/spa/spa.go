@@ -1,8 +1,8 @@
 package spa
 
 import (
-	page "github.com/espal-digital-development/espal-core/app/modules/core/app/pages/spa"
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
+	page "github.com/espal-digital-development/espal-module-core/app/pages/spa"
 )
 
 // Route processor.
