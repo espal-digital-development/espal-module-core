@@ -12,12 +12,14 @@ import (
 	"github.com/espal-digital-development/espal-core/modules/routes"
 	"github.com/espal-digital-development/espal-core/modules/translations"
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
-	catalogPage "github.com/espal-digital-development/espal-module-core/pages/catalog"
-	rootPage "github.com/espal-digital-development/espal-module-core/pages/root"
-	spaPage "github.com/espal-digital-development/espal-module-core/pages/spa"
-	"github.com/espal-digital-development/espal-module-core/routes/catalog"
-	"github.com/espal-digital-development/espal-module-core/routes/root"
-	"github.com/espal-digital-development/espal-module-core/routes/spa"
+	"github.com/espal-digital-development/espal-module-core/pages/catalog"
+	"github.com/espal-digital-development/espal-module-core/pages/root"
+	"github.com/espal-digital-development/espal-module-core/pages/spa"
+	apiAccountLoginRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/login"
+	apiAccountOverviewRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/overview"
+	catalogRoute "github.com/espal-digital-development/espal-module-core/routes/catalog"
+	rootRoute "github.com/espal-digital-development/espal-module-core/routes/root"
+	spaRoute "github.com/espal-digital-development/espal-module-core/routes/spa"
 	"github.com/juju/errors"
 )
 
@@ -37,8 +39,10 @@ func New() (*modules.Module, error) {
 		return nil, errors.Trace(errResolveModulePath)
 	}
 	modulePath := path.Dir(filename)
+	config := &modules.Config{}
+	var err error
 
-	meta, err := meta.New(&meta.Config{
+	config.MetaDefinition, err = meta.New(&meta.Config{
 		UniqueIdentifier:             "com.espal.core",
 		Version:                      "0.0.1",
 		MinimumCompatibleCoreVersion: "0.0.1",
@@ -51,49 +55,57 @@ func New() (*modules.Module, error) {
 		return nil, errors.Trace(err)
 	}
 
-	assets, err := assets.New(&assets.Config{
-		PublicRootFilesPath: filepath.FromSlash(modulePath + "/app/assets/files/root"),
-		ImagesPath:          filepath.FromSlash(modulePath + "/app/assets/images"),
-		StylesheetsPath:     filepath.FromSlash(modulePath + "/app/assets/css"),
-		JavaScriptPath:      filepath.FromSlash(modulePath + "/app/assets/js"),
-	})
-	if err != nil {
-		return nil, errors.Trace(err)
+	config.PreGetAssetsCallback = func(m modules.Modular) error {
+		assets, err := assets.New(&assets.Config{
+			PublicRootFilesPath: filepath.FromSlash(modulePath + "/app/assets/files/root"),
+			ImagesPath:          filepath.FromSlash(modulePath + "/app/assets/images"),
+			StylesheetsPath:     filepath.FromSlash(modulePath + "/app/assets/css"),
+			JavaScriptPath:      filepath.FromSlash(modulePath + "/app/assets/js"),
+		})
+		if err != nil {
+			return errors.Trace(err)
+		}
+		m.SetAssets(assets)
+		return nil
 	}
 
-	translations, err := translations.New(&translations.Config{
-		Path: filepath.FromSlash(modulePath + "/app/translations"),
-	})
-	if err != nil {
-		return nil, errors.Trace(err)
+	config.PreGetTranslationsCallback = func(m modules.Modular) error {
+		translations, err := translations.New(&translations.Config{
+			Path: filepath.FromSlash(modulePath + "/app/translations"),
+		})
+		if err != nil {
+			return errors.Trace(err)
+		}
+		m.SetTranslations(translations)
+		return nil
 	}
 
-	routes, err := routes.New(&routes.Config{
-		Entries: map[string]routes.Handler{
-			"/": root.New(rootPage.New()),
+	config.PreGetRoutesCallback = func(m modules.Modular) error {
+		routes, err := routes.New(&routes.Config{
+			Entries: map[string]routes.Handler{
+				"/": rootRoute.New(root.New()),
 
-			"/Spa": spa.New(spaPage.New()),
+				"/Spa": spaRoute.New(spa.New()),
 
-			// "/API/V1/Account":                         overview.New(),
-			// "/API/V1/Login":                           login.New(),
-			"/API/V1/Account/Register":                &apiEndPointNotImplemented{},
-			"/API/V1/Account/ForgotPassword":          &apiEndPointNotImplemented{},
-			"/API/V1/Account/ForgotPasswordSucceeded": &apiEndPointNotImplemented{},
-			"/API/V1/Account/PasswordRecovery":        &apiEndPointNotImplemented{},
+				"/API/V1/Account":                         apiAccountOverviewRoute.New(m.GetStores().User()),
+				"/API/V1/Login":                           apiAccountLoginRoute.New(m.GetStores().User()),
+				"/API/V1/Account/Register":                &apiEndPointNotImplemented{},
+				"/API/V1/Account/ForgotPassword":          &apiEndPointNotImplemented{},
+				"/API/V1/Account/ForgotPasswordSucceeded": &apiEndPointNotImplemented{},
+				"/API/V1/Account/PasswordRecovery":        &apiEndPointNotImplemented{},
 
-			"/Catalog": catalog.New(catalogPage.New()),
-		},
-	})
-	if err != nil {
-		return nil, errors.Trace(err)
+				"/Catalog": catalogRoute.New(catalog.New()),
+			},
+		})
+		if err != nil {
+			return errors.Trace(err)
+		}
+		m.SetRoutes(routes)
+		return nil
 	}
 
-	return modules.New(&modules.Config{
-		MetaDefinition:       meta,
-		AssetsProvider:       assets,
-		TranslationsProvider: translations,
-		RoutesProvider:       routes,
-	})
+	m, err := modules.New(config)
+	return m, errors.Trace(err)
 }
 
 type apiEndPointNotImplemented struct{}
