@@ -9,7 +9,7 @@ import (
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
 	"github.com/espal-digital-development/espal-core/stores/user"
 	"github.com/espal-digital-development/espal-core/text"
-	"github.com/espal-digital-development/espal-core/validators/forms/account/password/forgot"
+	"github.com/espal-digital-development/espal-module-core/forms/account/password/forgot"
 	page "github.com/espal-digital-development/espal-module-core/pages/account/password/forgot"
 	"github.com/juju/errors"
 )

@@ -11,7 +11,7 @@ import (
 	"github.com/espal-digital-development/espal-core/storage"
 	"github.com/espal-digital-development/espal-core/stores/user"
 	"github.com/espal-digital-development/espal-core/stores/user/address"
-	"github.com/espal-digital-development/espal-core/validators/forms/admin/user/createupdate"
+	"github.com/espal-digital-development/espal-module-core/forms/admin/user/createupdate"
 	page "github.com/espal-digital-development/espal-module-core/pages/admin/user/createupdate"
 	"github.com/juju/errors"
 	"golang.org/x/crypto/bcrypt"

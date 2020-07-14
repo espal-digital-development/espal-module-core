@@ -2,7 +2,7 @@ package login
 
 import (
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
-	"github.com/espal-digital-development/espal-core/validators/forms/account/login"
+	"github.com/espal-digital-development/espal-module-core/forms/account/login"
 	page "github.com/espal-digital-development/espal-module-core/pages/account/login"
 )
 

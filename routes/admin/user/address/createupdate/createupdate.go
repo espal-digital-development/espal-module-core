@@ -8,7 +8,7 @@ import (
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
 	"github.com/espal-digital-development/espal-core/stores/user"
 	"github.com/espal-digital-development/espal-core/stores/user/address"
-	"github.com/espal-digital-development/espal-core/validators/forms/admin/user/address/createupdate"
+	"github.com/espal-digital-development/espal-module-core/forms/admin/user/address/createupdate"
 	page "github.com/espal-digital-development/espal-module-core/pages/admin/user/address/createupdate"
 	"github.com/juju/errors"
 )

@@ -7,7 +7,7 @@ import (
 	"github.com/espal-digital-development/espal-core/repositories/regularexpressions"
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
 	"github.com/espal-digital-development/espal-core/stores/user"
-	"github.com/espal-digital-development/espal-core/validators/forms/account/password/recovery"
+	"github.com/espal-digital-development/espal-module-core/forms/account/password/recovery"
 	page "github.com/espal-digital-development/espal-module-core/pages/account/password/recovery"
 	"github.com/juju/errors"
 	"golang.org/x/crypto/bcrypt"

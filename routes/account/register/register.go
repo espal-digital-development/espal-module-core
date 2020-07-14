@@ -8,7 +8,7 @@ import (
 	"github.com/espal-digital-development/espal-core/mailer"
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
 	"github.com/espal-digital-development/espal-core/stores/user"
-	"github.com/espal-digital-development/espal-core/validators/forms/account/register"
+	"github.com/espal-digital-development/espal-module-core/forms/account/register"
 	page "github.com/espal-digital-development/espal-module-core/pages/account/register"
 	"github.com/juju/errors"
 	"golang.org/x/crypto/bcrypt"

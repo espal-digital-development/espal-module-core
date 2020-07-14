@@ -6,7 +6,7 @@ import (
 	"github.com/espal-digital-development/espal-core/config"
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
 	"github.com/espal-digital-development/espal-core/stores/user"
-	"github.com/espal-digital-development/espal-core/validators/forms/account/password/change"
+	"github.com/espal-digital-development/espal-module-core/forms/account/password/change"
 	page "github.com/espal-digital-development/espal-module-core/pages/account/password/change"
 	"github.com/juju/errors"
 	"golang.org/x/crypto/bcrypt"

@@ -7,7 +7,7 @@ import (
 	"github.com/espal-digital-development/espal-core/database/entitymutators"
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
 	"github.com/espal-digital-development/espal-core/stores/site"
-	"github.com/espal-digital-development/espal-core/validators/forms/admin/site/createupdate"
+	"github.com/espal-digital-development/espal-module-core/forms/admin/site/createupdate"
 	page "github.com/espal-digital-development/espal-module-core/pages/admin/site/createupdate"
 	"github.com/juju/errors"
 )
