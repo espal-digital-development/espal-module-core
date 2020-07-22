@@ -1,5 +1,7 @@
-import { HTTPService } from './httpService';
-import { AuthService } from './authService';
+import { HTTPService } from './http';
+import { AuthService } from './auth';
+import { StorageService } from './storage';
 
 export const httpService = new HTTPService();
-export const authService = new AuthService(httpService);
+export const storageService = new StorageService()
+export const authService = new AuthService(httpService, storageService);

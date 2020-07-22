@@ -183,18 +183,23 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js");
 /* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./App */ "./app/assets/vue/App.js");
+/* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services */ "./app/assets/vue/services/index.js");
 
 
+
+
+// TODO :: for now it's here, will be moved later
+_services__WEBPACK_IMPORTED_MODULE_2__["storageService"].keepALive = true
 
 Object(vue__WEBPACK_IMPORTED_MODULE_0__["createApp"])(_App__WEBPACK_IMPORTED_MODULE_1__["default"]).mount('#app')
 
 
 /***/ }),
 
-/***/ "./app/assets/vue/services/authService.js":
-/*!************************************************!*\
-  !*** ./app/assets/vue/services/authService.js ***!
-  \************************************************/
+/***/ "./app/assets/vue/services/auth/index.js":
+/*!***********************************************!*\
+  !*** ./app/assets/vue/services/auth/index.js ***!
+  \***********************************************/
 /*! exports provided: AuthService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -203,7 +208,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthService", function() { return AuthService; });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/@vue/runtime-dom/dist/runtime-dom.esm-bundler.js");
 /**
- * @typedef {import('./httpService').HTTPService} HTTPService
+ * @typedef {import('../http').HTTPService} HTTPService
+ * @typedef {import('../storage').StorageService} StorageService
  *
  * @typedef {Object} Credentials
  * @property {String} email
@@ -213,22 +219,28 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+const JWT_STORAGE_KEY = 'Epal-JWT';
+
 class AuthService {
     /**
-     *
      * @param {HTTPService} httpService
+     * @param {StorageService} storageService
      */
-    constructor(httpService) {
+    constructor(httpService, storageService) {
         this._httpService = httpService;
+        this._storageService = storageService;
 
-        this._jwt = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])('');
+        const storedJWT = this._storageService.getItem(JWT_STORAGE_KEY);
+        this._jwt = Object(vue__WEBPACK_IMPORTED_MODULE_0__["ref"])(storedJWT || '');
     }
 
     // prettier-ignore
     get jwt() { return this._jwt.value; }
 
-    // prettier-ignore
-    set jwt(value) { this._jwt.value = value; }
+    set jwt(value) {
+        this._jwt.value = value;
+        this._storageService.setItem(JWT_STORAGE_KEY, value);
+    }
 
     /**
      * @param {Credentials} credentials
@@ -248,10 +260,10 @@ class AuthService {
 
 /***/ }),
 
-/***/ "./app/assets/vue/services/httpService.js":
-/*!************************************************!*\
-  !*** ./app/assets/vue/services/httpService.js ***!
-  \************************************************/
+/***/ "./app/assets/vue/services/http/index.js":
+/*!***********************************************!*\
+  !*** ./app/assets/vue/services/http/index.js ***!
+  \***********************************************/
 /*! exports provided: HTTPService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -382,20 +394,80 @@ const addToFormData = (formData, key, value) => {
 /*!******************************************!*\
   !*** ./app/assets/vue/services/index.js ***!
   \******************************************/
-/*! exports provided: httpService, authService */
+/*! exports provided: httpService, storageService, authService */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "httpService", function() { return httpService; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "storageService", function() { return storageService; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "authService", function() { return authService; });
-/* harmony import */ var _httpService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./httpService */ "./app/assets/vue/services/httpService.js");
-/* harmony import */ var _authService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./authService */ "./app/assets/vue/services/authService.js");
+/* harmony import */ var _http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http */ "./app/assets/vue/services/http/index.js");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth */ "./app/assets/vue/services/auth/index.js");
+/* harmony import */ var _storage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./storage */ "./app/assets/vue/services/storage/index.js");
 
 
 
-const httpService = new _httpService__WEBPACK_IMPORTED_MODULE_0__["HTTPService"]();
-const authService = new _authService__WEBPACK_IMPORTED_MODULE_1__["AuthService"](httpService);
+
+const httpService = new _http__WEBPACK_IMPORTED_MODULE_0__["HTTPService"]();
+const storageService = new _storage__WEBPACK_IMPORTED_MODULE_2__["StorageService"]()
+const authService = new _auth__WEBPACK_IMPORTED_MODULE_1__["AuthService"](httpService, storageService);
+
+
+/***/ }),
+
+/***/ "./app/assets/vue/services/storage/index.js":
+/*!**************************************************!*\
+  !*** ./app/assets/vue/services/storage/index.js ***!
+  \**************************************************/
+/*! exports provided: StorageService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StorageService", function() { return StorageService; });
+const keepALiveKey = 'keepALive';
+/** setting keepALive here so we don't have to Parse it each time we get it */
+let keepALive = JSON.parse(localStorage.getItem(keepALiveKey));
+
+class StorageService {
+    /** @param {Boolean} value */
+    set keepALive(value) {
+        localStorage.setItem(keepALiveKey, value);
+        keepALive = value;
+    }
+
+    // prettier-ignore
+    /** @returns {Boolean} */
+    get keepALive() { return keepALive; }
+
+    /**
+     * Set item in storage, value will be converted to String if it's not a string yet
+     * 
+     * @param {String} key the key under which to store the value
+     * @param {*} value the value to store
+     */
+    setItem(key, value) {
+        if (!this.keepALive) return;
+        if (typeof value !== 'string') value = JSON.stringify(value);
+        localStorage.setItem(key, value);
+    }
+
+    /**
+     * Get item from storage
+     * 
+     * @param {String} key the key for which value to recieve
+     */
+    getItem(key) {
+        if (!this.keepALive) return null;
+        return localStorage.getItem(key);
+    }
+
+    /** empty the storage */
+    clear() {
+        localStorage.clear();
+    }
+}
 
 
 /***/ }),
