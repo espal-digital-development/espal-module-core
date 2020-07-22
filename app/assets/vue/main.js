@@ -1,8 +1,11 @@
 import { createApp } from 'vue'
 import App from './App'
-import { storageService } from './services'
+import { storageService, routerService } from './services'
 
 // TODO :: for now it's here, will be moved later
 storageService.keepALive = true
 
-createApp(App).mount('#app')
+const app = createApp(App)
+app.use(routerService._router)
+
+app.mount('#app')

@@ -82,9 +82,9 @@ func New() (*modules.Module, error) {
 	config.PreGetRoutesCallback = func(m modules.Modular) error {
 		routes, err := routes.New(&routes.Config{
 			Entries: map[string]routes.Handler{
-				"/": rootRoute.New(root.New()),
+				"/": spaRoute.New(spa.New()),
 
-				"/Spa": spaRoute.New(spa.New()),
+				"/Old": rootRoute.New(root.New()),
 
 				"/API/V1/Account":                         apiAccountOverviewRoute.New(m.GetStores().User()),
 				"/API/V1/Login":                           apiAccountLoginRoute.New(m.GetStores().User()),

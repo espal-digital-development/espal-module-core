@@ -1,40 +1,15 @@
-import { h, ref } from 'vue';
+import { h } from 'vue';
 
-import { authService } from './services';
 import TheLogo from './components/TheLogo';
+import TheNavbar from './components/TheNavbar.vue'
+import { RouterView } from 'vue-router';
 
 export default {
     setup() {
-        const jwtValidString = ref('');
-
-        const horizontalRule = h('hr');
-
         return () => [
+            h(TheNavbar),
             TheLogo,
-            h('h1', ['Hello!']),
-            horizontalRule,
-            h('p', [authService.jwt]),
-            h(
-                'button',
-                {
-                    onclick: () =>
-                        authService.login({
-                            email: 'no@one.com',
-                            password: 'haha',
-                            rememberMe: false
-                        })
-                },
-                ['Get JWT']
-            ),
-            horizontalRule,
-            h('p', [jwtValidString.value]),
-            h(
-                'button',
-                {
-                    onclick: async () => (jwtValidString.value = await authService.checkJWT())
-                },
-                ['Check JWT']
-            )
+            h(RouterView)
         ];
     }
 };
