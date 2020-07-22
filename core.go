@@ -3,7 +3,6 @@ package core
 import (
 	"net/http"
 	"path"
-	"path/filepath"
 	"runtime"
 
 	"github.com/espal-digital-development/espal-core/modules"
@@ -57,10 +56,10 @@ func New() (*modules.Module, error) {
 
 	config.PreGetAssetsCallback = func(m modules.Modular) error {
 		assets, err := assets.New(&assets.Config{
-			PublicRootFilesPath: filepath.FromSlash(modulePath + "/app/assets/files/root"),
-			ImagesPath:          filepath.FromSlash(modulePath + "/app/assets/images"),
-			StylesheetsPath:     filepath.FromSlash(modulePath + "/app/assets/css"),
-			JavaScriptPath:      filepath.FromSlash(modulePath + "/app/assets/js"),
+			PublicRootFilesPath: modulePath + "/app/assets/files/root",
+			ImagesPath:          modulePath + "/app/assets/images",
+			StylesheetsPath:     modulePath + "/app/assets/css",
+			JavaScriptPath:      modulePath + "/app/assets/js",
 		})
 		if err != nil {
 			return errors.Trace(err)
@@ -71,7 +70,7 @@ func New() (*modules.Module, error) {
 
 	config.PreGetTranslationsCallback = func(m modules.Modular) error {
 		translations, err := translations.New(&translations.Config{
-			Path: filepath.FromSlash(modulePath + "/app/translations"),
+			Path: modulePath + "/app/translations",
 		})
 		if err != nil {
 			return errors.Trace(err)
