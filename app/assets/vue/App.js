@@ -1,15 +1,11 @@
-import { h } from 'vue';
+import {h} from 'vue';
 
 import TheLogo from './components/TheLogo';
-import TheNavbar from './components/TheNavbar.vue'
-import { RouterView } from 'vue-router';
+import TheNavbar from './components/TheNavbar';
+import {RouterView} from 'vue-router';
 
 export default {
     setup() {
-        return () => [
-            h(TheNavbar),
-            TheLogo,
-            h(RouterView)
-        ];
+        return () => [h(TheNavbar), TheLogo(), h(RouterView)];
     }
 };
