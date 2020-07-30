@@ -37,11 +37,12 @@
 		"emmet.includeLanguages": {
 			"quicktemplate": "html"
 		},
-		"prettier.printWidth": 1000,
-		"prettier.singleQuote": true,
-		"prettier.tabWidth": 4,
-		"prettier.trailingComma": "none",
-		"prettier.semi": true,
+		"[javascript]": {
+			"editor.formatOnSave": true
+		},
+		"[vue]": {
+			"editor.formatOnSave": true
+		},
 		"editor.formatOnSave": false,
 		"go.formatTool": "goimports",
 		"go.lintTool": "golangci-lint",

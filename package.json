@@ -14,10 +14,18 @@
         "@vue/compiler-sfc": "^3.0.0-beta.20",
         "css-loader": "^3.4.2",
         "file-loader": "^6.0.0",
+        "husky": "^4.2.5",
         "mini-css-extract-plugin": "^0.9.0",
+        "prettier": "^2.0.5",
+        "pretty-quick": "^2.0.1",
         "url-loader": "^4.0.0",
         "vue-loader": "^16.0.0-alpha.3",
         "webpack": "^4.42.1",
         "webpack-cli": "^3.3.12"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged --pattern \"**/*.*(js|json|vue)\""
+        }
     }
 }
