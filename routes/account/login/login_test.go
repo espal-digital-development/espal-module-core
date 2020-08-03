@@ -17,7 +17,7 @@ import (
 // }
 
 func TestNew(t *testing.T) {
-	login := login.New(nil, nil)
+	login := login.New(nil)
 	if login == nil {
 		t.Fatal("result should not be nil")
 	}

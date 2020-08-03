@@ -9,16 +9,21 @@ import (
 	"github.com/espal-digital-development/espal-core/modules/assets"
 	"github.com/espal-digital-development/espal-core/modules/meta"
 	"github.com/espal-digital-development/espal-core/modules/routes"
+	"github.com/espal-digital-development/espal-core/modules/themes"
 	"github.com/espal-digital-development/espal-core/modules/translations"
+	themesRepository "github.com/espal-digital-development/espal-core/repositories/themes"
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
+	loginForm "github.com/espal-digital-development/espal-module-core/forms/account/login"
 	"github.com/espal-digital-development/espal-module-core/pages/catalog"
 	"github.com/espal-digital-development/espal-module-core/pages/root"
 	"github.com/espal-digital-development/espal-module-core/pages/spa"
+	loginRoute "github.com/espal-digital-development/espal-module-core/routes/account/login"
 	apiAccountLoginRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/login"
 	apiAccountOverviewRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/overview"
 	catalogRoute "github.com/espal-digital-development/espal-module-core/routes/catalog"
 	rootRoute "github.com/espal-digital-development/espal-module-core/routes/root"
 	spaRoute "github.com/espal-digital-development/espal-module-core/routes/spa"
+	"github.com/espal-digital-development/espal-module-core/themes/base/login"
 	"github.com/juju/errors"
 )
 
@@ -30,6 +35,8 @@ var errResolveModulePath = errors.New("failed to resolve module path")
 // - CompatibilityDefintion should describe what versions of the core app works with and
 //   whether it colides with other functionality being present in the system through other modules
 // - Modules should be able to talk to each other and affect load order
+
+// TODO :: 777777 Register forms and other routes/views (migrate all pages into the new Theme Views)
 
 // New returns a new instance of Module.
 func New() (*modules.Module, error) {
@@ -79,6 +86,23 @@ func New() (*modules.Module, error) {
 		return nil
 	}
 
+	config.PreGetThemesCallback = func(m modules.Modular) error {
+		loginView := login.New()
+
+		themes, err := themes.New(&themes.Config{
+			Views: map[string][]themesRepository.Viewable{
+				"base": {
+					loginView,
+				},
+			},
+		})
+		if err != nil {
+			return errors.Trace(err)
+		}
+		m.SetThemes(themes)
+		return nil
+	}
+
 	config.PreGetRoutesCallback = func(m modules.Modular) error {
 		routes, err := routes.New(&routes.Config{
 			Entries: map[string]routes.Handler{
@@ -94,6 +118,7 @@ func New() (*modules.Module, error) {
 				"/API/V1/Account/PasswordRecovery":        &apiEndPointNotImplemented{},
 
 				"/Catalog": catalogRoute.New(catalog.New()),
+				"/Login":   loginRoute.New(loginForm.New(m.GetValidatorsFactory(), m.GetStores().User())),
 			},
 		})
 		if err != nil {
