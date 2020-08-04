@@ -1,9 +1,0 @@
-{% func (p *Page) Stylesheets() %}<link rel="stylesheet" href="/c/root.css">{% endfunc %}
-
-{% func (p *Page) Title() %}{%s p.Translate("home") %}{% endfunc %}
-
-{% func (p *Page) Content() %}{% stripspace %}
-    <main>
-        <p>Welcome home</p>
-    </main>
-{% endstripspace %}{% endfunc %}

@@ -1,1 +1,0 @@
-package removeavatar_test

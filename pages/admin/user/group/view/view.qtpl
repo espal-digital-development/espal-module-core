@@ -1,7 +1,0 @@
-{% func (p *Page) Title() %}{%s p.Translate("userGroup") %}{% endfunc %}
-
-{% func (p *Page) Content() %}{% stripspace %}
-<main class="content">
-    <h1>{%s p.Translate("userGroup") %}</h1>
-</main>
-{% endstripspace %}{% endfunc %}

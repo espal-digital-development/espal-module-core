@@ -1,1 +1,0 @@
-package succeeded_test

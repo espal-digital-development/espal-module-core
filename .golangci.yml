@@ -1,0 +1,80 @@
+run:
+  concurrency: 2
+  timeout: 30s
+  issues-exit-code: 3
+linters-settings:
+  # nakedret:
+  #   max-func-lines: 40
+  gocritic:
+    disabled-checks:
+      - regexpMust
+  # funlen:
+  #   lines: 120
+  #   statements: 55
+issues:
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - gosec
+        - goerr113
+        - gochecknoglobals
+    - path: data\.go
+      linters:
+        - gochecknoglobals
+    - linters:
+      - gochecknoglobals
+      text: "randomStringSrc"
+    - linters:
+      - godot
+      source: "@synthesize"
+    - linters:
+      - errcheck
+      source: "\\w+\\.Write(?:String)?\\("
+    - linters:
+      - goerr113
+      text: "use errors\\.Is\\(\\) instead" # This recommends native errors, but we use juju
+    - linters:
+      - gomnd
+      source: "Field.SetM(in|ax)(Length|Year)"
+linters:
+  enable:
+    - bodyclose
+    - golint
+    - stylecheck
+    - gosec
+    - interfacer
+    - unconvert
+    - goconst
+    - gocognit
+    - asciicheck
+    - misspell
+    - unparam
+    - gochecknoinits
+    - goprintffuncname
+    - gomnd
+    - goerr113
+    - testpackage
+    - nestif
+    - nolintlint
+    - gocyclo
+    - lll
+    - dogsled
+    - nakedret
+    - prealloc
+    - scopelint
+    - gocritic
+    - funlen
+    - godot
+    - gochecknoglobals
+    - rowserrcheck
+
+    # Unused (mutliple reasons):
+    # - gofmt # Not used as formatter
+    # - goimports # Not used as formatter
+    # - depguard # This probably needs custom configuration
+    # - gomodguard # This probably needs custom configuration
+    # - whitespace # The exclude rules for .qtpl aren't working..
+    # - dupl # We intentionally use duplicated code in places
+    # - maligned # These changes are very small (might be fun for some tweaking later)
+    # - godox # Maybe be handy to quickly find TODO's, but might as well just use search
+    # - wsl # Too aggressive

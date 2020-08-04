@@ -1,8 +1,0 @@
-{% func (p *Page) Title() %}{%s *p.post.Title() %}{% endfunc %}
-
-{% func (p *Page) Content() %}{% stripspace %}
-<div class="content">
-    {% comment %} TODO :: Implement {% endcomment %}
-    EDIT
-</div>
-{% endstripspace %}{% endfunc %}

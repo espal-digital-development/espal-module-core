@@ -14,14 +14,10 @@ import (
 	themesRepository "github.com/espal-digital-development/espal-core/repositories/themes"
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
 	loginForm "github.com/espal-digital-development/espal-module-core/forms/account/login"
-	"github.com/espal-digital-development/espal-module-core/pages/catalog"
-	"github.com/espal-digital-development/espal-module-core/pages/root"
 	"github.com/espal-digital-development/espal-module-core/pages/spa"
 	loginRoute "github.com/espal-digital-development/espal-module-core/routes/account/login"
 	apiAccountLoginRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/login"
 	apiAccountOverviewRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/overview"
-	catalogRoute "github.com/espal-digital-development/espal-module-core/routes/catalog"
-	rootRoute "github.com/espal-digital-development/espal-module-core/routes/root"
 	spaRoute "github.com/espal-digital-development/espal-module-core/routes/spa"
 	"github.com/espal-digital-development/espal-module-core/themes/base/login"
 	"github.com/juju/errors"
@@ -39,6 +35,7 @@ var errResolveModulePath = errors.New("failed to resolve module path")
 // TODO :: 777777 Register forms and other routes/views (migrate all pages into the new Theme Views)
 
 // New returns a new instance of Module.
+// nolint:funlen
 func New() (*modules.Module, error) {
 	_, filename, _, ok := runtime.Caller(0)
 	if !ok {
@@ -108,8 +105,6 @@ func New() (*modules.Module, error) {
 			Entries: map[string]routes.Handler{
 				"/": spaRoute.New(spa.New()),
 
-				"/Old": rootRoute.New(root.New()),
-
 				"/API/V1/Account":                         apiAccountOverviewRoute.New(m.GetStores().User()),
 				"/API/V1/Login":                           apiAccountLoginRoute.New(m.GetStores().User()),
 				"/API/V1/Account/Register":                &apiEndPointNotImplemented{},
@@ -117,8 +112,7 @@ func New() (*modules.Module, error) {
 				"/API/V1/Account/ForgotPasswordSucceeded": &apiEndPointNotImplemented{},
 				"/API/V1/Account/PasswordRecovery":        &apiEndPointNotImplemented{},
 
-				"/Catalog": catalogRoute.New(catalog.New()),
-				"/Login":   loginRoute.New(loginForm.New(m.GetValidatorsFactory(), m.GetStores().User())),
+				"/Login": loginRoute.New(loginForm.New(m.GetValidatorsFactory(), m.GetStores().User())),
 			},
 		})
 		if err != nil {

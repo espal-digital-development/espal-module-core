@@ -1,1 +1,0 @@
-package userrightupdate_test

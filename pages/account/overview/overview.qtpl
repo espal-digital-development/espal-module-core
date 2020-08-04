@@ -1,7 +1,0 @@
-{% func (p *Page) Title() %}{%s p.Translate("account") %}{% space %}{%s p.Translate("information") %}{% endfunc %}
-
-{% func (p *Page) Content() %}{% stripspace %}
-
-{% endstripspace %}{% endfunc %}
-
-{% func (p *Page) Stylesheets() %}<link rel="stylesheet" href="/c/account.css">{% endfunc %}
