@@ -21,6 +21,14 @@ export class RouterService {
             routes: [{name: 'Home', path: '/', component: Home}]
         });
     }
+    // prettier-ignore
+    get overviewPageNamePart() { return '.overview'; }
+    // prettier-ignore
+    get createPageNamePart() { return '.create'; }
+    // prettier-ignore
+    get showPageNamePart() { return '.show'; }
+    // prettier-ignore
+    get editPageNamePart() { return '.edit'; }
 
     // prettier-ignore
     /**
@@ -44,21 +52,28 @@ export class RouterService {
     createBaseRoutes(settings) {
         const base = this.createBase(settings.endpoint, settings.baseComponent);
 
-        // TODO :: put all strings in getters
         if (settings.overviewComponent) {
-            base.children.push(this.createRecord('', settings.endpoint + '.overview', settings.overviewComponent));
+            base.children.push(
+                this.createRouteRecord('', settings.endpoint + this.overviewPageNamePart, settings.overviewComponent)
+            );
         }
 
         if (settings.createComponent) {
-            base.children.push(this.createRecord('/create', settings.endpoint + '.create', settings.createComponent));
+            base.children.push(
+                this.createRouteRecord('/create', settings.endpoint + this.createPageNamePart, settings.createComponent)
+            );
         }
 
         if (settings.showComponent) {
-            base.children.push(this.createRecord('/:id', settings.endpoint + '.overview', settings.showComponent));
+            base.children.push(
+                this.createRouteRecord('/:id', settings.endpoint + this.showPageNamePart, settings.showComponent)
+            );
         }
 
         if (settings.editComponent) {
-            base.children.push(this.createRecord('/:id/edit', settings.endpoint + '.overview', settings.editComponent));
+            base.children.push(
+                this.createRouteRecord('/:id/edit', settings.endpoint + this.editPageNamePart, settings.editComponent)
+            );
         }
 
         return base;
@@ -73,9 +88,8 @@ export class RouterService {
      * @returns {RouteRecordRaw}
      */
     createBase(basePath, baseComponent) {
-        // TODO :: create createPath method to always add a slash to the given path
         return {
-            path: '/' + basePath,
+            path: this.createPath(basePath),
             component: baseComponent,
             children: []
         };
@@ -90,7 +104,17 @@ export class RouterService {
      *
      * @returns {RouteRecordRaw}
      */
-    createRecord(path, name, component) {
-        return {path, name, component};
+    createRouteRecord(path, name, component) {
+        return {path: this.createPath(path), name, component};
+    }
+
+    /**
+     * Adds a leading slash if it's not there yet
+     * @param {String} path the path to create
+     */
+    createPath(path) {
+        // TODO :: could add more, like make the path kebab-case if it's other case
+        if (!path.startsWith('/')) path = '/' + path;
+        return path;
     }
 }

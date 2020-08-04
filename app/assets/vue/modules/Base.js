@@ -52,7 +52,6 @@ export class BaseModule {
     }
 
     goToOverview() {
-        // TODO :: get .overview also from routerService
-        this._routerService.goToRoute(this._apiEndpoint + '.overview');
+        this._routerService.goToRoute(this._apiEndpoint + this._routerService.overviewPageNamePart);
     }
 }
