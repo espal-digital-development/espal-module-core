@@ -55,10 +55,7 @@ func (r *Route) Handle(context contexts.Context) {
 	// context.SetContentType("text/plain")
 	context.SetContentType("espal-x")
 
-	if _, err := context.WriteString("Your token is valid!"); err != nil {
-		context.SetStatusCode(http.StatusBadRequest)
-		return
-	}
+	context.WriteString("Your token is valid!")
 }
 
 // New returns a new instance of Route.

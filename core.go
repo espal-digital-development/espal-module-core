@@ -1,7 +1,6 @@
 package core
 
 import (
-	"net/http"
 	"path"
 	"runtime"
 
@@ -129,7 +128,5 @@ func New() (*modules.Module, error) {
 type apiEndPointNotImplemented struct{}
 
 func (a *apiEndPointNotImplemented) Handle(context contexts.Context) {
-	if _, err := context.WriteString("This endpoint is not implemented yet."); err != nil {
-		context.SetStatusCode(http.StatusInternalServerError)
-	}
+	context.WriteString("This endpoint is not implemented yet.")
 }
