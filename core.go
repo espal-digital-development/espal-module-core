@@ -7,6 +7,7 @@ import (
 	"github.com/espal-digital-development/espal-core/modules"
 	"github.com/espal-digital-development/espal-core/modules/assets"
 	"github.com/espal-digital-development/espal-core/modules/meta"
+	"github.com/espal-digital-development/espal-core/modules/repositories"
 	"github.com/espal-digital-development/espal-core/modules/routes"
 	"github.com/espal-digital-development/espal-core/modules/themes"
 	"github.com/espal-digital-development/espal-core/modules/translations"
@@ -17,6 +18,7 @@ import (
 	loginRoute "github.com/espal-digital-development/espal-module-core/routes/account/login"
 	apiAccountLoginRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/login"
 	apiAccountOverviewRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/overview"
+	"github.com/espal-digital-development/espal-module-core/routes/api/v1/global"
 	spaRoute "github.com/espal-digital-development/espal-module-core/routes/spa"
 	"github.com/espal-digital-development/espal-module-core/themes/base/login"
 	"github.com/juju/errors"
@@ -99,10 +101,26 @@ func New() (*modules.Module, error) {
 		return nil
 	}
 
+	config.PreGetRepositoriesCallback = func(m modules.Modular) error {
+		repostories, err := repositories.New()
+		if err != nil {
+			return errors.Trace(err)
+		}
+		m.SetRepositories(repostories)
+		return nil
+	}
+
 	config.PreGetRoutesCallback = func(m modules.Modular) error {
+		repos, err := m.GetRepositories()
+		if err != nil {
+			return errors.Trace(err)
+		}
+
 		routes, err := routes.New(&routes.Config{
 			Entries: map[string]routes.Handler{
 				"/": spaRoute.New(spa.New()),
+
+				"/API/V1/Global": global.New(repos.Languages(), repos.UserRights(), m.GetStores().Domain()),
 
 				"/API/V1/Account":                         apiAccountOverviewRoute.New(m.GetStores().User()),
 				"/API/V1/Login":                           apiAccountLoginRoute.New(m.GetStores().User()),
