@@ -6,6 +6,7 @@ import (
 
 	"github.com/espal-digital-development/espal-core/modules"
 	"github.com/espal-digital-development/espal-core/modules/assets"
+	moduleConfig "github.com/espal-digital-development/espal-core/modules/config"
 	"github.com/espal-digital-development/espal-core/modules/meta"
 	"github.com/espal-digital-development/espal-core/modules/repositories"
 	"github.com/espal-digital-development/espal-core/modules/routes"
@@ -57,6 +58,15 @@ func New() (*modules.Module, error) {
 	})
 	if err != nil {
 		return nil, errors.Trace(err)
+	}
+
+	config.PreGetConfigCallback = func(m modules.Modular) error {
+		moduleConfig, err := moduleConfig.New()
+		if err != nil {
+			return errors.Trace(err)
+		}
+		m.SetConfig(moduleConfig)
+		return nil
 	}
 
 	config.PreGetAssetsCallback = func(m modules.Modular) error {
@@ -111,6 +121,10 @@ func New() (*modules.Module, error) {
 	}
 
 	config.PreGetRoutesCallback = func(m modules.Modular) error {
+		config, err := m.GetConfig()
+		if err != nil {
+			return errors.Trace(err)
+		}
 		repos, err := m.GetRepositories()
 		if err != nil {
 			return errors.Trace(err)
@@ -122,8 +136,8 @@ func New() (*modules.Module, error) {
 
 				"/API/V1/Global": global.New(repos.Languages(), repos.UserRights(), m.GetStores().Domain()),
 
-				"/API/V1/Account":                         apiAccountOverviewRoute.New(m.GetStores().User()),
-				"/API/V1/Login":                           apiAccountLoginRoute.New(m.GetStores().User()),
+				"/API/V1/Account":                         apiAccountOverviewRoute.New(),
+				"/API/V1/Login":                           apiAccountLoginRoute.New(config.GetService(), m.GetStores().User()),
 				"/API/V1/Account/Register":                &apiEndPointNotImplemented{},
 				"/API/V1/Account/ForgotPassword":          &apiEndPointNotImplemented{},
 				"/API/V1/Account/ForgotPasswordSucceeded": &apiEndPointNotImplemented{},
