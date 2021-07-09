@@ -15,12 +15,10 @@ import (
 	themesRepository "github.com/espal-digital-development/espal-core/repositories/themes"
 	"github.com/espal-digital-development/espal-core/routing/router/contexts"
 	loginForm "github.com/espal-digital-development/espal-module-core/forms/account/login"
-	"github.com/espal-digital-development/espal-module-core/pages/spa"
 	loginRoute "github.com/espal-digital-development/espal-module-core/routes/account/login"
 	apiAccountLoginRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/login"
 	apiAccountOverviewRoute "github.com/espal-digital-development/espal-module-core/routes/api/v1/account/overview"
 	"github.com/espal-digital-development/espal-module-core/routes/api/v1/global"
-	spaRoute "github.com/espal-digital-development/espal-module-core/routes/spa"
 	"github.com/espal-digital-development/espal-module-core/themes/base/login"
 	"github.com/juju/errors"
 )
@@ -132,7 +130,7 @@ func New() (*modules.Module, error) {
 
 		routes, err := routes.New(&routes.Config{
 			Entries: map[string]routes.Handler{
-				"/": spaRoute.New(spa.New()),
+				// "/": spaRoute.New(spa.New()),
 
 				"/API/V1/Global": global.New(repos.Languages(), repos.UserRights(), m.GetStores().Domain()),
 
